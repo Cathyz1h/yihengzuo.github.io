@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Yiheng Zuo — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #F8F4EE;
+      --warm-white: #FDFAF6;
+      --charcoal: #1E1C1A;
+      --soft-brown: #8B7355;
+      --terracotta: #C4784A;
+      --warm-gold: #D4A853;
+      --light-tan: #E8DDD0;
+      --muted: #9A8E82;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--charcoal);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 24px 60px;
+      background: rgba(248, 244, 238, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      color: var(--charcoal);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 36px; list-style: none; }
+    .nav-links a {
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--terracotta); }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+    }
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 80px 60px 80px 60px;
+      position: relative;
+    }
+    .hero-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 20px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300;
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--charcoal);
+      margin-bottom: 28px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero-name em {
+      font-style: italic;
+      color: var(--soft-brown);
+    }
+    .hero-desc {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--muted);
+      max-width: 400px;
+      margin-bottom: 44px;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 12px;
+      background: var(--charcoal);
+      color: var(--cream);
+      padding: 14px 32px;
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none; cursor: pointer;
+      transition: background 0.25s, transform 0.2s;
+      animation: fadeUp 0.8s 0.3s ease both;
+      width: fit-content;
+    }
+    .hero-cta:hover { background: var(--terracotta); transform: translateY(-2px); }
+    .hero-cta svg { width: 16px; height: 16px; }
+
+    .hero-right {
+      position: relative;
+      overflow: hidden;
+      background: var(--light-tan);
+    }
+    .hero-right img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      animation: scaleIn 1.2s ease both;
+      display: block;
+    }
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, var(--cream) 0%, transparent 20%);
+      pointer-events: none;
+    }
+    .hero-accent {
+      position: absolute; bottom: 48px; left: -48px;
+      width: 200px; height: 200px;
+      border: 1px solid rgba(196, 120, 74, 0.2);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ── SECTION SHARED ── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--terracotta);
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 48px;
+    }
+    .section-title em { font-style: italic; color: var(--soft-brown); }
+    .divider {
+      width: 48px; height: 1px;
+      background: var(--terracotta);
+      margin-bottom: 48px;
+    }
+
+    /* ── ABOUT ── */
+    #about {
+      background: var(--warm-white);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+    .about-text p {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: #4A4540;
+      margin-bottom: 20px;
+    }
+    .about-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .stat-card {
+      padding: 32px 28px;
+      background: var(--cream);
+      border-left: 2px solid var(--terracotta);
+      transition: transform 0.2s;
+    }
+    .stat-card:hover { transform: translateX(6px); }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem;
+      font-weight: 600;
+      color: var(--terracotta);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ── EXPERIENCE ── */
+    #experience { background: var(--cream); }
+    .exp-grid { display: flex; flex-direction: column; gap: 32px; }
+    .exp-card {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 40px;
+      padding: 40px;
+      background: var(--warm-white);
+      border: 1px solid rgba(139, 115, 85, 0.12);
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .exp-card::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--terracotta);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.35s ease;
+    }
+    .exp-card:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(30,28,26,0.08); }
+    .exp-card:hover::before { transform: scaleY(1); }
+    .exp-meta { padding-top: 4px; }
+    .exp-period {
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      color: var(--terracotta);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .exp-company {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .exp-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: var(--charcoal);
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .exp-bullets li {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: #5A5248;
+      padding-left: 16px;
+      position: relative;
+    }
+    .exp-bullets li::before {
+      content: '—';
+      position: absolute; left: 0;
+      color: var(--terracotta);
+      font-size: 0.8rem;
+    }
+
+    /* ── EDUCATION ── */
+    #education {
+      background: var(--charcoal);
+      color: var(--cream);
+    }
+    #education .section-title { color: var(--cream); }
+    #education .section-title em { color: var(--warm-gold); }
+    #education .divider { background: var(--warm-gold); }
+    .edu-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+    .edu-card {
+      padding: 40px;
+      border: 1px solid rgba(248, 244, 238, 0.1);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+    .edu-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(to right, var(--warm-gold), var(--terracotta));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s ease;
+    }
+    .edu-card:hover { border-color: rgba(248, 244, 238, 0.25); }
+    .edu-card:hover::after { transform: scaleX(1); }
+    .edu-degree {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      color: var(--warm-gold);
+      margin-bottom: 8px;
+    }
+    .edu-school {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      color: var(--cream);
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .edu-detail {
+      font-size: 0.82rem;
+      color: rgba(248, 244, 238, 0.5);
+      letter-spacing: 0.06em;
+      line-height: 1.6;
+    }
+    .edu-gpa {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 6px 16px;
+      background: rgba(212, 168, 83, 0.15);
+      border: 1px solid rgba(212, 168, 83, 0.3);
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      color: var(--warm-gold);
+      text-transform: uppercase;
+    }
+
+    /* ── SKILLS ── */
+    #skills { background: var(--warm-white); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .skill-pill {
+      display: flex; align-items: center; gap: 14px;
+      padding: 22px 24px;
+      background: var(--cream);
+      border: 1px solid rgba(139, 115, 85, 0.12);
+      transition: all 0.2s;
+      cursor: default;
+    }
+    .skill-pill:hover {
+      border-color: var(--terracotta);
+      background: rgba(196, 120, 74, 0.04);
+      transform: translateY(-2px);
+    }
+    .skill-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      flex-shrink: 0;
+    }
+    .skill-name { font-size: 0.88rem; color: var(--charcoal); }
+
+    /* ── CONTACT ── */
+    #contact {
+      background: var(--cream);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    .contact-intro {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.8rem, 2.5vw, 2.4rem);
+      font-weight: 300;
+      line-height: 1.4;
+      color: var(--charcoal);
+      margin-bottom: 32px;
+    }
+    .contact-intro em { font-style: italic; color: var(--soft-brown); }
+    .contact-links { display: flex; flex-direction: column; gap: 20px; }
+    .contact-link {
+      display: flex; align-items: center; gap: 16px;
+      text-decoration: none;
+      padding: 18px 24px;
+      background: var(--warm-white);
+      border: 1px solid rgba(139, 115, 85, 0.12);
+      transition: all 0.2s;
+      color: var(--charcoal);
+    }
+    .contact-link:hover {
+      border-color: var(--terracotta);
+      background: rgba(196, 120, 74, 0.04);
+      transform: translateX(6px);
+    }
+    .contact-link-icon { color: var(--terracotta); font-size: 1.1rem; width: 20px; text-align: center; }
+    .contact-link-text { font-size: 0.9rem; color: var(--charcoal); }
+    .contact-link-label { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 32px 60px;
+      background: var(--charcoal);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      opacity: 0.6;
+    }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(248,244,238,0.35);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(1.06); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* Intersection Observer fade-in */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 20px 28px; }
+      .nav-links { gap: 20px; }
+      #hero { grid-template-columns: 1fr; }
+      .hero-right { height: 50vw; min-height: 300px; }
+      .hero-left { padding: 60px 28px; }
+      #about { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; }
+      #experience { padding: 60px 28px; }
+      .exp-card { grid-template-columns: 1fr; gap: 16px; padding: 28px; }
+      #education { padding: 60px 28px; }
+      .edu-grid { grid-template-columns: 1fr; }
+      #skills { padding: 60px 28px; }
+      .skills-grid { grid-template-columns: 1fr 1fr; }
+      #contact { grid-template-columns: 1fr; gap: 40px; padding: 60px 28px; }
+      footer { padding: 24px 28px; flex-direction: column; gap: 8px; text-align: center; }
+      section { padding: 60px 28px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#hero">Yiheng Zuo</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-left">
+    <p class="hero-tag">Business &amp; Management</p>
+    <h1 class="hero-name">Yiheng<br><em>Zuo</em></h1>
+    <p class="hero-desc">Rutgers Business School student with a passion for financial analysis, entrepreneurship, and building brands that connect with people.</p>
+    <a href="#contact" class="hero-cta">
+      Get in touch
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+    <div class="hero-accent"></div>
+  </div>
+  <div class="hero-right">
+    <img src="565fbec25050ec1cccf36944d930b2d6.jpg" alt="Yiheng Zuo" />
+    <div class="hero-overlay"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-text reveal">
+    <p class="section-label">About Me</p>
+    <div class="section-title">Driven by<br><em>curiosity &amp; ambition</em></div>
+    <div class="divider"></div>
+    <p>I'm a Business Management student at Rutgers with a 3.7 GPA, bringing hands-on experience across operations, strategy, and marketing. From leading teams in business competitions to interning at an international food technology company, I've built a strong foundation in analytical thinking and creative problem-solving.</p>
+    <p>With experience in financial analysis, social media marketing, and cross-cultural communication, I bring a versatile perspective to every challenge I take on.</p>
+  </div>
+  <div class="about-stats reveal">
+    <div class="stat-card">
+      <div class="stat-number">3.7</div>
+      <div class="stat-label">GPA at Rutgers</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">3+</div>
+      <div class="stat-label">Years of Experience</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Leadership Roles</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">2028</div>
+      <div class="stat-label">Expected Graduation</div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <p class="section-label reveal">Work &amp; Projects</p>
+  <div class="section-title reveal">Professional<br><em>Experience</em></div>
+  <div class="divider reveal"></div>
+
+  <div class="exp-grid">
+    <div class="exp-card reveal">
+      <div class="exp-meta">
+        <p class="exp-period">May – Sep 2023</p>
+        <p class="exp-company">Hunan Xiangyou Food Technology Co., Ltd<br>ChangSha, China</p>
+      </div>
+      <div>
+        <p class="exp-role">Assistant to the Secretary of the Board / General Manager</p>
+        <ul class="exp-bullets">
+          <li>Analyzed monthly sales revenue and negotiated with manufacturers to generate additional revenue and reduce costs</li>
+          <li>Assisted HR in interviewing new employees, selecting candidates based on abilities and past experience</li>
+          <li>Promoted company image via social media operations through WeChat video</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card reveal">
+      <div class="exp-meta">
+        <p class="exp-period">Jan – Apr 2023</p>
+        <p class="exp-company">Concordia Business Plan Competition<br>Orange County, California</p>
+      </div>
+      <div>
+        <p class="exp-role">Chief Operating Officer</p>
+        <ul class="exp-bullets">
+          <li>Proposed a Mysterious Box Company concept to bring a low-cost entertainment model to younger audiences</li>
+          <li>Executed SWOT analysis, set product pricing, and calculated ROI &amp; break-even analysis to confirm project feasibility</li>
+          <li>Presented a 20-page business plan and delivered a speech to convince potential investors</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="exp-card reveal">
+      <div class="exp-meta">
+        <p class="exp-period">Jan – Feb 2023</p>
+        <p class="exp-company">MSC Major Impact<br>Online, United States</p>
+      </div>
+      <div>
+        <p class="exp-role">Group Leader</p>
+        <ul class="exp-bullets">
+          <li>Conducted esports industry analysis using desktop research methods including Porter's Five Forces</li>
+          <li>Assessed feasibility for new market entry through competitor analysis and consumer research</li>
+          <li>Proactively coordinated group members and set daily reminders to maintain team progress</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label reveal" style="color: var(--warm-gold);">Academic Background</p>
+  <div class="section-title reveal">Education</div>
+  <div class="divider reveal"></div>
+  <div class="edu-grid">
+    <div class="edu-card reveal">
+      <p class="edu-degree">Bachelor of Science</p>
+      <p class="edu-school">Rutgers Business School</p>
+      <p class="edu-detail">Management<br>New Brunswick, NJ<br>Expected May 2028</p>
+      <span class="edu-gpa">GPA: 3.7</span>
+    </div>
+    <div class="edu-card reveal">
+      <p class="edu-degree">High School Diploma</p>
+      <p class="edu-school">Whittier Christian High School</p>
+      <p class="edu-detail">California, United States<br>May 2024</p>
+      <div style="margin-top: 20px; font-size: 0.82rem; color: rgba(248,244,238,0.4); line-height: 1.7;">
+        Relevant: Economics · Precalculus (Honors)<br>Business &amp; Entrepreneurship · Management
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label reveal">Capabilities</p>
+  <div class="section-title reveal">Skills &amp; <em>Expertise</em></div>
+  <div class="divider reveal"></div>
+  <div class="skills-grid">
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Financial Analysis (ROI, Break-even)</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">SWOT Analysis</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Social Media Marketing</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Team Leadership &amp; Coordination</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Microsoft PowerPoint</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Photography</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Video Editing (Premiere Pro)</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Business Presentation</span></div>
+    <div class="skill-pill reveal"><div class="skill-dot"></div><span class="skill-name">Market &amp; Competitor Research</span></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">Let's Connect</p>
+    <p class="contact-intro">Open to new<br><em>opportunities &amp;<br>collaborations</em></p>
+    <p style="font-size: 0.9rem; color: var(--muted); line-height: 1.75; max-width: 360px;">Feel free to reach out if you'd like to discuss opportunities, ideas, or just connect.</p>
+  </div>
+  <div class="contact-links reveal">
+    <a class="contact-link" href="tel:7472755966">
+      <span class="contact-link-icon">📞</span>
+      <div>
+        <div class="contact-link-label">Phone</div>
+        <div class="contact-link-text">(747) 275-5966</div>
+      </div>
+    </a>
+    <a class="contact-link" href="mailto:yz1509@scarletmail.rutgers.edu">
+      <span class="contact-link-icon">✉️</span>
+      <div>
+        <div class="contact-link-label">Email</div>
+        <div class="contact-link-text">yz1509@scarletmail.rutgers.edu</div>
+      </div>
+    </a>
+    <a class="contact-link" href="https://www.linkedin.com/in/亨亨-亨-168036384" target="_blank">
+      <span class="contact-link-icon">💼</span>
+      <div>
+        <div class="contact-link-label">LinkedIn</div>
+        <div class="contact-link-text">linkedin.com/in/亨亨-亨-168036384</div>
+      </div>
+    </a>
+    <a class="contact-link" href="#">
+      <span class="contact-link-icon">📍</span>
+      <div>
+        <div class="contact-link-label">Location</div>
+        <div class="contact-link-text">New Brunswick, NJ 08901</div>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-name">Yiheng Zuo</span>
+  <span class="footer-copy">© 2025 — All rights reserved</span>
+</footer>
+
+<script>
+  // Intersection Observer for reveal animations
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 60);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
